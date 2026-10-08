@@ -1,0 +1,36 @@
+:root {
+	--bg: #fff;
+	--fg: #1a1a1a;
+	--muted: #666;
+	--link: #0b57d0;
+	color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #111;
+		--fg: #e6e6e6;
+		--muted: #999;
+		--link: #8ab4f8;
+	}
+	/* Shiki dual themes: use dark vars */
+	.astro-code, .astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+	}
+}
+body {
+	max-width: 65ch;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+	background: var(--bg);
+	color: var(--fg);
+	font: 1.0625rem/1.65 system-ui, sans-serif;
+}
+a { color: var(--link); }
+header nav { display: flex; gap: 1rem; margin-bottom: 3rem; }
+header nav a:first-child { margin-right: auto; font-weight: 600; }
+footer { margin-top: 4rem; color: var(--muted); font-size: 0.9rem; }
+ul.plain { list-style: none; padding: 0; }
+ul.plain li { margin-bottom: 0.75rem; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+pre { overflow-x: auto; padding: 1rem; border-radius: 4px; }

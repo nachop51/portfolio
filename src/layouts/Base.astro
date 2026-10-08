@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/url';
+import { AUTHOR, SITE_TITLE, SITE_DESCRIPTION, SOCIALS } from '../consts';
+
+interface Props {
+	title?: string;
+	description?: string;
+	ogType?: 'website' | 'article';
+}
+const { title, description = SITE_DESCRIPTION, ogType = 'website' } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(url('/og.png'), Astro.site);
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={url('/rss.xml')} />
+		<link rel="sitemap" href={url('/sitemap-index.xml')} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href={url('/')}>{SITE_TITLE}</a>
+				<a href={url('/about/')}>About</a>
+				<a href={url('/blog/')}>Blog</a>
+			</nav>
+		</header>
+		<main><slot /></main>
+		<footer>
+			© {new Date().getFullYear()} {AUTHOR} ·
+			{SOCIALS.map((s, i) => <>{i > 0 && ' · '}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a></>)}
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url';
+import { getPosts, fmtDate } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="Blog">
+	<h1>Blog</h1>
+	<ul class="plain">
+		{posts.map((p) => (
+			<li>
+				<a href={url(`/blog/${p.id}/`)}>{p.data.title}</a>
+				<span class="muted"> · {fmtDate(p.data.date)}</span>
+				<div class="muted">{p.data.description}</div>
+			</li>
+		))}
+	</ul>
+</Base>

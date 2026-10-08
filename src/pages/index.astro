@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getPosts, fmtDate } from '../lib/posts';
+import { url } from '../lib/url';
+import { AUTHOR } from '../consts';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getPosts()).slice(0, 5);
+---
+
+<Base>
+	<h1>{AUTHOR}</h1>
+	<p>Software engineer at Holberton School Mauritius, based in Uruguay. I build web tooling, developer tools and the occasional systems project in Go, Rust and TypeScript.</p>
+
+	<h2>Projects</h2>
+	<ul class="plain">
+		{projects.map((p) => (
+			<li>
+				<a href={p.data.url} target="_blank" rel="noopener noreferrer">{p.data.title}</a>
+				<div class="muted">{p.data.description}</div>
+			</li>
+		))}
+	</ul>
+
+	<h2>Writing</h2>
+	<ul class="plain">
+		{posts.map((p) => (
+			<li>
+				<a href={url(`/blog/${p.id}/`)}>{p.data.title}</a>
+				<span class="muted"> · {fmtDate(p.data.date)}</span>
+			</li>
+		))}
+	</ul>
+</Base>
